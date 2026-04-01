@@ -13,7 +13,8 @@ export type ClientMessage =
     | { type: 'newChat' }
     | { type: 'openSettings' }
     | { type: 'requestSessions' }
-    | { type: 'resumeSession'; sessionId: string; modelId?: string };
+    | { type: 'resumeSession'; sessionId: string; modelId?: string }
+    | { type: 'sifCommand'; command: string; args?: any };
 
 /**
  * Context usage information from session

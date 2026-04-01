@@ -116,6 +116,12 @@ export class AIChatViewProvider implements vscode.WebviewViewProvider {
                 await this._handleRequestSessions();
                 break;
 
+
+            case 'sifCommand':
+                // Forward command to Sif via VS Codium command
+                await vscode.commands.executeCommand('copilot-oss.sifCommand', message.command, message.args);
+                break;
+
             case 'resumeSession':
                 await this._handleResumeSession(message.sessionId, message.modelId ?? '');
                 console.log('Session resumed:', message);

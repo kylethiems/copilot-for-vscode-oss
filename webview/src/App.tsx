@@ -267,14 +267,24 @@ function App() {
             attachments: messageAttachments.length > 0 ? messageAttachments : undefined
         }]);
 
-        // Send to extension with full attachment objects
-        vscode.postMessage({
-            type: 'sendMessage',
-            message: content,
-            modelId: selectedModelId,
-            attachments: messageAttachments,
-            systemMessage: customSystemMessage || undefined
-        });
+        // Patch: If message starts with /sif, send as 'sifCommand' to extension
+        if (content.trim().toLowerCase().startsWith('/sif ')) {
+            const sifMessage = content.trim().slice(5).trim();
+            vscode.postMessage({
+                type: 'sifCommand',
+                command: 'chat',
+                args: { message: sifMessage }
+            });
+        } else {
+            // Send to extension with full attachment objects
+            vscode.postMessage({
+                type: 'sendMessage',
+                message: content,
+                modelId: selectedModelId,
+                attachments: messageAttachments,
+                systemMessage: customSystemMessage || undefined
+            });
+        }
         setAttachments([]);
     };
 

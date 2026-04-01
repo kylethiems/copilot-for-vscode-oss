@@ -11,7 +11,7 @@ export function activate(context: vscode.ExtensionContext) {
     copilotService = new CopilotService();
 
     // Create and register the webview provider
-    const provider = new AIChatViewProvider(context.extensionUri, copilotService);
+    const provider = new AIChatViewProvider(context.extensionUri, copilotService);    journalctl -u venom-math -e
 
     context.subscriptions.push(
         vscode.window.registerWebviewViewProvider(
@@ -26,6 +26,7 @@ export function activate(context: vscode.ExtensionContext) {
     );
 
     // Register commands
+
     context.subscriptions.push(
         vscode.commands.registerCommand('copilot-oss.newSession', () => {
             provider.newSession();
@@ -35,6 +36,22 @@ export function activate(context: vscode.ExtensionContext) {
     context.subscriptions.push(
         vscode.commands.registerCommand('copilot-oss.clearHistory', () => {
             provider.clearHistory();
+        })
+    );
+
+    // Register Sif command handler
+    context.subscriptions.push(
+        vscode.commands.registerCommand('copilot-oss.sifCommand', async (...args) => {
+            // Forward command to Sif via IPC
+            try {
+                const { sendToSif } = await import('./sifIpcClient');
+                const command = args[0]?.command || 'unknown';
+                const commandArgs = args[0]?.args || {};
+                const result = await sendToSif(command, commandArgs);
+                vscode.window.showInformationMessage('Sif response: ' + JSON.stringify(result));
+            } catch (e) {
+                vscode.window.showErrorMessage('Failed to send command to Sif: ' + e);
+            }
         })
     );
 

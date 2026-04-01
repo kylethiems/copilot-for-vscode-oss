@@ -25,7 +25,8 @@
   "activationEvents": [
     "onView:copilot-oss.sidebar",
     "onCommand:copilot-oss.newSession",
-    "onCommand:copilot-oss.clearHistory"
+    "onCommand:copilot-oss.clearHistory",
+    "onCommand:copilot-oss.sifCommand"
   ],
   "main": "./dist/extension.js",
   "l10n": "./locales",
@@ -69,6 +70,11 @@
         "command": "copilot-oss.clearHistory",
         "title": "%command.clearHistory.title%",
         "icon": "$(clear-all)"
+      },
+      {
+        "command": "copilot-oss.sifCommand",
+        "title": "Send Command to Sif",
+        "icon": "$(terminal)"
       }
     ]
   },
@@ -85,6 +91,7 @@
   },
   "devDependencies": {
     "@types/node": "^20.x",
+    "@types/node-fetch": "^2.6.13",
     "@types/vscode": "^1.103.0",
     "@typescript-eslint/eslint-plugin": "^7.x",
     "@typescript-eslint/parser": "^7.x",
@@ -95,6 +102,7 @@
   },
   "dependencies": {
     "@github/copilot-sdk": "^0.1.x",
-    "@vscode/codicons": "^0.0.44"
+    "@vscode/codicons": "^0.0.44",
+    "node-fetch": "^2.7.0"
   }
 }
