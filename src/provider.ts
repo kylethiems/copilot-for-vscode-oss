@@ -435,6 +435,8 @@ export class AIChatViewProvider implements vscode.WebviewViewProvider {
             {
                 name: 'Available Models',
                 models: [
+                    { id: 'sif-120-mesh', name: 'Sif (120 Dodeca Mesh)', multiplier: 'MoE' },
+                    { id: 'sif-sylph', name: 'Sif the Sylph (4 Dodeca LoRA)', multiplier: 'Light' },
                     { id: 'gpt-4.1', name: 'GPT-4.1', multiplier: '1.0x' }
                 ]
             }

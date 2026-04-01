@@ -23,33 +23,31 @@
     "Chat"
   ],
   "activationEvents": [
-    "onView:copilot-oss.sidebar",
-    "onCommand:copilot-oss.newSession",
-    "onCommand:copilot-oss.clearHistory",
     "onCommand:copilot-oss.sifCommand"
   ],
   "main": "./dist/extension.js",
   "l10n": "./locales",
   "contributes": {
-    "viewsContainers": {
-      "activitybar": [
-        {
-          "id": "copilot-chat-container",
-          "title": "%viewsContainers.title%",
-          "icon": "media/ghcp.svg"
-        }
-      ]
-    },
-    "views": {
-      "copilot-chat-container": [
-        {
-          "type": "webview",
-          "id": "copilot-oss.sidebar",
-          "name": "%views.chat.name%",
-          "icon": "media/ghcp.svg"
-        }
-      ]
-    },
+    // OSS Chat Window disabled for Ghost-Hook testing
+    // "viewsContainers": {
+    //   "activitybar": [
+    //     {
+    //       "id": "copilot-chat-container",
+    //       "title": "%viewsContainers.title%",
+    //       "icon": "media/ghcp.svg"
+    //     }
+    //   ]
+    // },
+    // "views": {
+    //   "copilot-chat-container": [
+    //     {
+    //       "type": "webview",
+    //       "id": "copilot-oss.sidebar",
+    //       "name": "%views.chat.name%",
+    //       "icon": "media/ghcp.svg"
+    //     }
+    //   ]
+    // },
     "configuration": {
       "title": "Copilot for VSCode OSS",
       "properties": {
@@ -98,7 +96,8 @@
     "@vscode/test-electron": "^2.x",
     "concurrently": "^8.x",
     "eslint": "^8.x",
-    "typescript": "^5.x"
+    "typescript": "^5.x",
+    "webpack-cli": "^7.0.2"
   },
   "dependencies": {
     "@github/copilot-sdk": "^0.1.x",

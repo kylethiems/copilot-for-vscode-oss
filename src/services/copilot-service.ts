@@ -61,21 +61,18 @@ export class CopilotService {
                     // Sif-only: Route chat messages to Sif backend
                     async sendMessage(prompt: string, modelId: string, attachments: FileAttachment[], systemMessage?: string): Promise<void> {
                         try {
-                            // Dynamically import sendToSif
                             const { sendToSif } = await import('../sifIpcClient');
-                            // Prepare arguments for Sif
-                            const args = {
-                                prompt,
-                                model: modelId,
-                                attachments,
-                                systemMessage
-                            };
-                            // Send to Sif and await response
-                            const response = await sendToSif('chat', args);
-                            // Log the raw response for debugging
+                            let command = 'chat';
+                            let args = { prompt, model: modelId, attachments, systemMessage };
+                            // Route to correct mesh host script based on modelId
+                            if (modelId === 'sif-120-mesh') {
+                                command = 'chat_sif_120_mesh';
+                            } else if (modelId === 'sif-sylph') {
+                                command = 'chat_sif_sylph';
+                            }
+                            const response = await sendToSif(command, args);
                             // eslint-disable-next-line no-console
                             console.log('[Sif DEBUG] Raw response from Sif:', response);
-                            // Relay Sif's response to the webview
                             this.webview?.postMessage({
                                 type: 'addMessage',
                                 id: `msg_${Date.now()}_${Math.random().toString(36).substr(2, 9)}`,
@@ -124,6 +121,24 @@ export class CopilotService {
                     // Sif-only: Return hardcoded model list
                     async listModels(): Promise<ModelOption[]> {
                         return [
+                            {
+                                id: 'sif-120-mesh',
+                                name: 'Sif (120 Dodeca Mesh)',
+                                multiplier: 'MoE',
+                                isPremium: false,
+                                supportsVision: false,
+                                isEnabled: true,
+                                restrictedTo: undefined
+                            },
+                            {
+                                id: 'sif-sylph',
+                                name: 'Sif the Sylph (4 Dodeca LoRA)',
+                                multiplier: 'Light',
+                                isPremium: false,
+                                supportsVision: false,
+                                isEnabled: true,
+                                restrictedTo: undefined
+                            },
                             {
                                 id: 'gpt-4.1',
                                 name: 'GPT-4.1',

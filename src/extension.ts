@@ -10,34 +10,31 @@ export function activate(context: vscode.ExtensionContext) {
     // Initialize the Copilot service
     copilotService = new CopilotService();
 
-    // Create and register the webview provider
-    const provider = new AIChatViewProvider(context.extensionUri, copilotService);    journalctl -u venom-math -e
+    // OSS Chat Window disabled for Ghost-Hook testing
+    // const provider = new AIChatViewProvider(context.extensionUri, copilotService);
+    // context.subscriptions.push(
+    //     vscode.window.registerWebviewViewProvider(
+    //         AIChatViewProvider.viewType,
+    //         provider,
+    //         {
+    //             webviewOptions: {
+    //                 retainContextWhenHidden: false // Use state serialization instead
+    //             }
+    //         }
+    //     )
+    // );
 
-    context.subscriptions.push(
-        vscode.window.registerWebviewViewProvider(
-            AIChatViewProvider.viewType,
-            provider,
-            {
-                webviewOptions: {
-                    retainContextWhenHidden: false // Use state serialization instead
-                }
-            }
-        )
-    );
-
-    // Register commands
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('copilot-oss.newSession', () => {
-            provider.newSession();
-        })
-    );
-
-    context.subscriptions.push(
-        vscode.commands.registerCommand('copilot-oss.clearHistory', () => {
-            provider.clearHistory();
-        })
-    );
+    // OSS Chat Window commands disabled for Ghost-Hook testing
+    // context.subscriptions.push(
+    //     vscode.commands.registerCommand('copilot-oss.newSession', () => {
+    //         provider.newSession();
+    //     })
+    // );
+    // context.subscriptions.push(
+    //     vscode.commands.registerCommand('copilot-oss.clearHistory', () => {
+    //         provider.clearHistory();
+    //     })
+    // );
 
     // Register Sif command handler
     context.subscriptions.push(
